@@ -1,0 +1,5 @@
+C:\Users\Stefano grosso\Desktop\FormulaOneSolution\FormulaOneDLL\bin\Debug\FormulaOneDLL.dll
+C:\Users\Stefano grosso\Desktop\FormulaOneSolution\FormulaOneDLL\bin\Debug\FormulaOneDLL.pdb
+C:\Users\Stefano grosso\Desktop\FormulaOneSolution\FormulaOneDLL\obj\Debug\FormulaOneDLL.csprojAssemblyReference.cache
+C:\Users\Stefano grosso\Desktop\FormulaOneSolution\FormulaOneDLL\obj\Debug\FormulaOneDLL.dll
+C:\Users\Stefano grosso\Desktop\FormulaOneSolution\FormulaOneDLL\obj\Debug\FormulaOneDLL.pdb
