@@ -1,4 +1,14 @@
-# Formula one Project
-## Il Progetto è volto alla gestione del campionato mondiale 2020 di F1
+# Formula 1 Project
+## Developed by Grosso Stefano
 
-## Nel Progetto troviamo:
+## progetto
+#### -> DLL (Verrà successivamente inplementata con un update)
+#### -> CLI 
+#### -> GUI (Verrà successivamente inplementata con un update)
+
+## CLI
+#### ->interfaccia console (gestione amministrativa)
+###### -Creazione tabella
+###### -Eliminazione tabella
+
+
