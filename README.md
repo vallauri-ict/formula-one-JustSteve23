@@ -1,7 +1,8 @@
 # Formula 1 Project
 ## Developed by Grosso Stefano
 
-## progetto
+
+## Progetto
 #### -> DLL (Verrà successivamente inplementata con un update)
 #### -> CLI 
 #### -> GUI (Verrà successivamente inplementata con un update)
