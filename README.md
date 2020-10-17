@@ -3,7 +3,7 @@
 
 
 ## Progetto
-#### -> DLL (Verrà successivamente inplementata con un update)
+#### -> DLL 
 #### -> CLI 
 #### -> GUI (Verrà successivamente inplementata con un update)
 
