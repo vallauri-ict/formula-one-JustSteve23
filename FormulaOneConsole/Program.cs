@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Permissions;
+using System.Threading;
 using FormulaOneDLL;
 
 namespace FormulaOneConsole
@@ -7,18 +9,16 @@ namespace FormulaOneConsole
     {
         static void Main(string[] args)
         {
+            dotAnimation("Starting", ConsoleColor.Green,true);
             char scelta = ' ';
             do
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("\n*** FORMULA ONE - BATCH SCRIPTS ***\n");
                 Console.WriteLine("1 - Create Countries");
                 Console.WriteLine("2 - Create Teams");
                 Console.WriteLine("3 - Create Drivers");
                 Console.WriteLine("4 - Create Circuits");
-                Console.WriteLine("5 - Create Races");
-                Console.WriteLine("6 - Create RacesScores");
-                Console.WriteLine("7 - Create Scores");
-                Console.WriteLine("8 - Set Constraints");
                 Console.WriteLine("------------------");
                 Console.WriteLine("R - Reset");
                 Console.WriteLine("------------------");
@@ -27,47 +27,50 @@ namespace FormulaOneConsole
                 switch (scelta)
                 {
                     case '1':
+                        THanimation();
+                        Thread.Sleep(1015);
                         callExecuteSqlScript("countries");
                         break;
                     case '2':
+                        THanimation();
+                        Thread.Sleep(1015);
                         callExecuteSqlScript("teams");
                         break;
                     case '3':
+                        THanimation();
+                        Thread.Sleep(1015);
                         callExecuteSqlScript("drivers");
                         break;
                     case '4':
+                        THanimation();
+                        Thread.Sleep(1015);
                         callExecuteSqlScript("circuits");
                         break;
-                    case '5':
-                        callExecuteSqlScript("races");
-                        break;
-                    case '6':
-                        callExecuteSqlScript("racesScores");
-                        break;
-                    case '7':
-                        callExecuteSqlScript("scores");
-                        break;
-                    case '8':
-                        callExecuteSqlScript("setConstraints");
-                        break;
                     case 'R':
+                        THanimation();
+                        Thread.Sleep(1015);
                         bool OK;
-                        OK = callDropTable("RacesScores");
-                        if (OK) OK = callDropTable("Scores");
-                        if (OK) OK = callDropTable("Races");
-                        if (OK) OK = callDropTable("Circuits");
-                        if (OK) OK = callDropTable("Teams");
-                        if (OK) OK = callDropTable("Drivers");
-                        if (OK) OK = callDropTable("Countries");
-                        if (OK) OK = callExecuteSqlScript("Countries");
-                        if (OK) OK = callExecuteSqlScript("Drivers");
-                        if (OK) OK = callExecuteSqlScript("Teams");
-                        if (OK) OK = callExecuteSqlScript("Circuits");
-                        if (OK) OK = callExecuteSqlScript("Races");
-                        if (OK) OK = callExecuteSqlScript("Scores");
-                        if (OK) OK = callExecuteSqlScript("RacesScores");
-                        if (OK) OK = callExecuteSqlScript("SetConstraints");
-                        if (OK) Console.WriteLine("OK");
+
+                        //tabelle
+                        OK = callDropTable("Country");
+                        if (OK) OK = callDropTable("Team");
+                        if (OK) OK = callDropTable("Driver");
+                        if (OK) OK = callDropTable("Circuit");
+
+                        //script file
+                        if (OK) OK = callExecuteSqlScript("countries");
+                        if (OK) OK = callExecuteSqlScript("teams");
+                        if (OK) OK = callExecuteSqlScript("drivers");
+                        if (OK) OK = callExecuteSqlScript("circuits");
+                        if (OK) 
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("RESET DB OK");
+                        }
+
+                        break;
+                    case 'x':
+                        dotAnimation("Closing",ConsoleColor.Green,false);
                         break;
                     default:
                         if (scelta != 'X' && scelta != 'x') Console.WriteLine("\nUncorrect Choice - Try Again\n");
@@ -76,17 +79,31 @@ namespace FormulaOneConsole
             } while (scelta != 'X' && scelta != 'x');
         }
 
+        private static void THanimation()
+        {
+            Thread anim = new Thread(ausTHanim);
+            anim.Start();
+        }
+
+        private static void ausTHanim()
+        {
+            dotAnimation("Working",ConsoleColor.White,false);
+        }
+
         public static bool callExecuteSqlScript(string scriptName)
         {
             try
             {
                 DBtools.ExecuteSqlScript(scriptName + ".sql");
-                Console.WriteLine("\nCreate " + scriptName + " - SUCCESS\n");
+                if (Console.ForegroundColor != ConsoleColor.Red)
+                    Console.WriteLine("\nCreate " + scriptName + " - SUCCESS\n");
+                else
+                    throw new Exception();
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\nCreate " + scriptName + " - ERROR: " + ex.Message + "\n");
+                Console.WriteLine("\n"+ scriptName + " Not Created \n");
                 return false;
             }
         }
@@ -96,14 +113,32 @@ namespace FormulaOneConsole
             try
             {
                 DBtools.DropTable(tableName);
-                Console.WriteLine("\nDROP " + tableName + " - SUCCESS\n");
+                if (Console.ForegroundColor != ConsoleColor.Red)
+                    Console.WriteLine("\nDROP " + tableName + " - SUCCESS\n");
+                else
+                    throw new Exception();
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\nDROP " + tableName + " - ERROR: " + ex.Message + "\n");
+                Console.WriteLine("\n" + tableName + " Not Dropped \n");
                 return false;
             }
+        }
+
+        public static void dotAnimation(string toWrite, ConsoleColor color,bool isTOclear)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(toWrite);
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write(".");
+                Thread.Sleep(200);
+            }
+            Console.Write("\n\n");
+            if (isTOclear)
+                Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

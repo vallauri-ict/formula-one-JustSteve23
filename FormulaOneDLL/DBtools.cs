@@ -33,9 +33,11 @@ namespace FormulaOneDLL
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
                 catch (SqlException err)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Errore in esecuzione della query numero: " + i);
                     Console.WriteLine("\tErrore SQL: " + err.Number + " - " + err.Message);
                 }
@@ -50,9 +52,11 @@ namespace FormulaOneDLL
             try
             {
                 cmd.ExecuteNonQuery();
+                Console.ForegroundColor = ConsoleColor.Green;
             }
             catch (SqlException err)
             {
+                Console.ForegroundColor = ConsoleColor.Red; 
                 Console.WriteLine("\tErrore SQL: " + err.Number + " - " + err.Message);
             }
             con.Close();
