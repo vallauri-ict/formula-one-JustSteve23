@@ -19,6 +19,7 @@ namespace FormulaOneConsole
                 Console.WriteLine("2 - Create Teams");
                 Console.WriteLine("3 - Create Drivers");
                 Console.WriteLine("4 - Create Circuits");
+                Console.WriteLine("5 - Create GP");
                 Console.WriteLine("------------------");
                 Console.WriteLine("R - Reset");
                 Console.WriteLine("------------------");
@@ -46,6 +47,11 @@ namespace FormulaOneConsole
                         Thread.Sleep(1015);
                         callExecuteSqlScript("circuits");
                         break;
+                    case '5':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        callExecuteSqlScript("gps");
+                        break;
                     case 'R':
                         THanimation();
                         Thread.Sleep(1015);
@@ -56,12 +62,14 @@ namespace FormulaOneConsole
                         if (OK) OK = callDropTable("Team");
                         if (OK) OK = callDropTable("Driver");
                         if (OK) OK = callDropTable("Circuit");
+                        if (OK) OK = callDropTable("GP");
 
                         //script file
                         if (OK) OK = callExecuteSqlScript("countries");
                         if (OK) OK = callExecuteSqlScript("teams");
                         if (OK) OK = callExecuteSqlScript("drivers");
                         if (OK) OK = callExecuteSqlScript("circuits");
+                        if (OK) OK = callExecuteSqlScript("gps");
                         if (OK) 
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
