@@ -5,10 +5,11 @@ using FormulaOneDLL;
 
 namespace FormulaOneConsole
 {
-    class Program
-    {
+    class Program {
+        public static DBtools DBtoolsInst;
         static void Main(string[] args)
         {
+            DBtoolsInst = new DBtools();
             dotAnimation("Starting", ConsoleColor.Green,true);
             char scelta = ' ';
             do
@@ -21,6 +22,8 @@ namespace FormulaOneConsole
                 Console.WriteLine("4 - Create Circuits");
                 Console.WriteLine("5 - Create GP");
                 Console.WriteLine("------------------");
+                Console.WriteLine("B - Backup");
+                Console.WriteLine("T - Restore");
                 Console.WriteLine("R - Reset");
                 Console.WriteLine("------------------");
                 Console.WriteLine("X - EXIT\n");
@@ -52,9 +55,20 @@ namespace FormulaOneConsole
                         Thread.Sleep(1015);
                         callExecuteSqlScript("gps");
                         break;
+                    case 'B':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        DBtoolsInst.DBBackup();
+                        break;
+                    case 'T':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        DBtoolsInst.DBRestore();
+                        break;
                     case 'R':
                         THanimation();
                         Thread.Sleep(1015);
+                        DBtoolsInst.DBBackup();
                         bool OK;
 
                         //tabelle
@@ -74,6 +88,10 @@ namespace FormulaOneConsole
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("RESET DB OK");
+                        }
+                        else
+                        {
+                            DBtoolsInst.DBRestore();
                         }
 
                         break;
@@ -102,7 +120,7 @@ namespace FormulaOneConsole
         {
             try
             {
-                DBtools.ExecuteSqlScript(scriptName + ".sql");
+                DBtoolsInst.ExecuteSqlScript(scriptName + ".sql");
                 if (Console.ForegroundColor != ConsoleColor.Red)
                     Console.WriteLine("\nCreate " + scriptName + " - SUCCESS\n");
                 else
@@ -120,7 +138,7 @@ namespace FormulaOneConsole
         {
             try
             {
-                DBtools.DropTable(tableName);
+                DBtoolsInst.DropTable(tableName);
                 if (Console.ForegroundColor != ConsoleColor.Red)
                     Console.WriteLine("\nDROP " + tableName + " - SUCCESS\n");
                 else
