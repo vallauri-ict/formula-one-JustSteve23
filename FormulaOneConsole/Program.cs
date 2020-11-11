@@ -108,7 +108,7 @@ namespace FormulaOneConsole
         }
         #endregion
 
-        #region callExecutonofScripts
+        #region callExecutionfScripts
         public static bool callExecuteSqlScript(string scriptName)
         {
             try

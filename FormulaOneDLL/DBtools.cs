@@ -16,7 +16,7 @@ namespace FormulaOneDLL
         public const string QUERYPATH = @"C:\data\F1\queries\";
         public const string DBPATH = @"C:\data\F1\";
         public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="+ DBPATH + "FormulaOne.mdf;Integrated Security=True";
-        private static string RESTORE_CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DBPATH + @"FormulaOne.bak; Integrated Security=True";
+        //private static string RESTORE_CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DBPATH + @"FormulaOne.bak; Integrated Security=True";
 
         public void ExecuteSqlScript(string sqlScriptName)
         {
