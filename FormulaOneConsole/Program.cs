@@ -9,6 +9,7 @@ namespace FormulaOneConsole
         public static DBtools DBtoolsInst;
         static void Main(string[] args)
         {
+            Console.Title = "Formula 1";
             DBtoolsInst = new DBtools();
             dotAnimation("Starting", ConsoleColor.Green,true);
             char scelta = ' ';
@@ -99,7 +100,8 @@ namespace FormulaOneConsole
                         dotAnimation("Closing",ConsoleColor.Green,false);
                         break;
                     default:
-                        if (scelta != 'X' && scelta != 'x') Console.WriteLine("\nUncorrect Choice - Try Again\n");
+                        if (scelta != 'X' && scelta != 'x')
+                            Console.WriteLine("\nUncorrect Choice - Try Again\n");
                         break;
                 }
             } while (scelta != 'X' && scelta != 'x');
