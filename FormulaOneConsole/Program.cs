@@ -7,11 +7,13 @@ namespace FormulaOneConsole
 {
     class Program {
         public static DBtools DBtoolsInst;
+
+        #region menu(main)
         static void Main(string[] args)
         {
             Console.Title = "Formula 1";
             DBtoolsInst = new DBtools();
-            dotAnimation("Starting", ConsoleColor.Green,true);
+            dotAnimation("Starting", ConsoleColor.Green, true);
             char scelta = ' ';
             do
             {
@@ -85,7 +87,7 @@ namespace FormulaOneConsole
                         if (OK) OK = callExecuteSqlScript("drivers");
                         if (OK) OK = callExecuteSqlScript("circuits");
                         if (OK) OK = callExecuteSqlScript("gps");
-                        if (OK) 
+                        if (OK)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("RESET DB OK");
@@ -97,7 +99,7 @@ namespace FormulaOneConsole
 
                         break;
                     case 'x':
-                        dotAnimation("Closing",ConsoleColor.Green,false);
+                        dotAnimation("Closing", ConsoleColor.Green, false);
                         break;
                     default:
                         if (scelta != 'X' && scelta != 'x')
@@ -106,18 +108,9 @@ namespace FormulaOneConsole
                 }
             } while (scelta != 'X' && scelta != 'x');
         }
+        #endregion
 
-        private static void THanimation()
-        {
-            Thread anim = new Thread(ausTHanim);
-            anim.Start();
-        }
-
-        private static void ausTHanim()
-        {
-            dotAnimation("Working",ConsoleColor.White,false);
-        }
-
+        #region callExecutionfScripts
         public static bool callExecuteSqlScript(string scriptName)
         {
             try
@@ -153,6 +146,19 @@ namespace FormulaOneConsole
                 return false;
             }
         }
+        #endregion
+
+        #region dotAnimation
+        private static void THanimation()
+        {
+            Thread anim = new Thread(ausTHanim);
+            anim.Start();
+        }
+
+        private static void ausTHanim()
+        {
+            dotAnimation("Working", ConsoleColor.White, false);
+        }
 
         public static void dotAnimation(string toWrite, ConsoleColor color,bool isTOclear)
         {
@@ -168,5 +174,6 @@ namespace FormulaOneConsole
                 Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
         }
+        #endregion
     }
 }
