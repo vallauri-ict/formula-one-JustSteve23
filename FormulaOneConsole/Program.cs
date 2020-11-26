@@ -24,6 +24,8 @@ namespace FormulaOneConsole
                 Console.WriteLine("3 - Create Drivers");
                 Console.WriteLine("4 - Create Circuits");
                 Console.WriteLine("5 - Create GP");
+                Console.WriteLine("6 - Create Points");
+                Console.WriteLine("7 - Create GPresults");
                 Console.WriteLine("------------------");
                 Console.WriteLine("B - Backup");
                 Console.WriteLine("T - Restore");
@@ -58,6 +60,16 @@ namespace FormulaOneConsole
                         Thread.Sleep(1015);
                         callExecuteSqlScript("gps");
                         break;
+                    case '6':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        callExecuteSqlScript("points");
+                        break;
+                    case '7':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        callExecuteSqlScript("gpResults");
+                        break;
                     case 'B':
                         THanimation();
                         Thread.Sleep(1015);
@@ -80,6 +92,8 @@ namespace FormulaOneConsole
                         if (OK) OK = callDropTable("Driver");
                         if (OK) OK = callDropTable("Circuit");
                         if (OK) OK = callDropTable("GP");
+                        if (OK) OK = callDropTable("Point");
+                        if (OK) OK = callDropTable("GPResult");
 
                         //script file
                         if (OK) OK = callExecuteSqlScript("countries");
@@ -87,6 +101,8 @@ namespace FormulaOneConsole
                         if (OK) OK = callExecuteSqlScript("drivers");
                         if (OK) OK = callExecuteSqlScript("circuits");
                         if (OK) OK = callExecuteSqlScript("gps");
+                        if (OK) OK = callExecuteSqlScript("points");
+                        if (OK) OK = callExecuteSqlScript("gpResults");
                         if (OK)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
