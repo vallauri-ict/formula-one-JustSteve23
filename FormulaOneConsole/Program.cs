@@ -26,6 +26,8 @@ namespace FormulaOneConsole
                 Console.WriteLine("5 - Create GP");
                 Console.WriteLine("6 - Create Points");
                 Console.WriteLine("7 - Create GPresults");
+                Console.WriteLine("8 - Create relations");
+                Console.WriteLine("9 - Drop relations");
                 Console.WriteLine("------------------");
                 Console.WriteLine("B - Backup");
                 Console.WriteLine("T - Restore");
@@ -70,6 +72,16 @@ namespace FormulaOneConsole
                         Thread.Sleep(1015);
                         callExecuteSqlScript("gpResults");
                         break;
+                    case '8':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        callExecuteSqlScript("relations");
+                        break;
+                    case '9':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        callExecuteSqlScript("dropRelations");
+                        break;
                     case 'B':
                         THanimation();
                         Thread.Sleep(1015);
@@ -87,7 +99,9 @@ namespace FormulaOneConsole
                         bool OK;
 
                         //tabelle
-                        OK = callDropTable("Country");
+                        //OK=callExecuteSqlScript("dropRelations");
+                        //if (OK) 
+                            OK = callDropTable("Country");
                         if (OK) OK = callDropTable("Team");
                         if (OK) OK = callDropTable("Driver");
                         if (OK) OK = callDropTable("Circuit");
@@ -103,6 +117,7 @@ namespace FormulaOneConsole
                         if (OK) OK = callExecuteSqlScript("gps");
                         if (OK) OK = callExecuteSqlScript("points");
                         if (OK) OK = callExecuteSqlScript("gpResults");
+                        //if (OK) OK = callExecuteSqlScript("relations");
                         if (OK)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
