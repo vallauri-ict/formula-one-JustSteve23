@@ -155,7 +155,7 @@ namespace FormulaOneConsole
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\n"+ scriptName + " Not Created \n");
+                Console.WriteLine("\n"+ scriptName + " Not Created \nError Message: " + ex.Message);
                 return false;
             }
         }
@@ -173,7 +173,7 @@ namespace FormulaOneConsole
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\n" + tableName + " Not Dropped \n");
+                Console.WriteLine("\n" + tableName + " Not Dropped \nError Message: "+ex.Message);
                 return false;
             }
         }

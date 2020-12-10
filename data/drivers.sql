@@ -31,4 +31,5 @@ INSERT INTO [Driver] VALUES (8,'Romain','Grosjean','HAS','FR',0,0,'https://www.f
 INSERT INTO [Driver] VALUES (63,'George','Russell','WLR','GB',0,0,'https://www.formula1.com/content/fom-website/en/drivers/george-russell/_jcr_content/image.img.1024.medium.jpg/1584013371803.jpg');
 INSERT INTO [Driver] VALUES (6,'Nicholas','Latifi','WLR','CA',0,0,'https://www.formula1.com/content/fom-website/en/drivers/nicholas-latifi/_jcr_content/image.img.1024.medium.jpg/1584013371803.jpg');
 INSERT INTO [Driver] VALUES (27,'Nico','Hulkenberg','RPT','DE',0,0,'https://www.formula1.com/content/dam/fom-website/sutton/2020/70thAnniversary/Sunday/1264850435.jpg.transform/9col/image.jpg');
-
+INSERT INTO [Driver] VALUES (89,'Jack','Aitken','WLR','GB',0,0,'https://www.formula1.com/content/dam/fom-website/manual/Misc/2020/Misc/JA-Website-Header.jpg');
+INSERT INTO [Driver] VALUES (51,'Pietro','Fittipaldi','HAS','BR',0,0,'https://staticfanpage.akamaized.net/wp-content/uploads/sites/27/2020/12/pietro-fittipaldi-haas-dinastia-emerson-1607009242140-638x425.jpg');
