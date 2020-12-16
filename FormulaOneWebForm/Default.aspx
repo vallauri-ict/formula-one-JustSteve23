@@ -10,7 +10,11 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            Hello World
+            <asp:button runat="server" Text="invia"/> <br />
+            <asp:label runat="server" Text=" "/> <br />
+        </div>
+        <div>
+            <asp:ListBox ID="tb" runat="server"></asp:ListBox>
         </div>
     </form>
 </body>

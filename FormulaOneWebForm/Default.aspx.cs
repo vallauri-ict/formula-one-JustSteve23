@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormulaOneDLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,16 @@ namespace FormulaOneWebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DBtools db = new DBtools();
+            if (Page.IsPostBack)
+            {
 
+            }
+            else
+            {
+                tb.DataSource = db.GetCountries();
+                tb.DataBind();
+            }
         }
     }
 }

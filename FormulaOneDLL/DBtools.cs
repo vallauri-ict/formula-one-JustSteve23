@@ -143,5 +143,33 @@ namespace FormulaOneDLL
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        public List<string> GetCountries()
+        {
+            List<string> lst = new List<string>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+                {
+                    con.Open();
+                    SqlCommand command = new SqlCommand(@"SELECT countryCode FROM Country");
+                    command.ExecuteNonQuery();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(reader.GetString(0)+" --> "+reader.GetString(1));
+                        lst.Add($"{reader.GetString(0)}-{reader.GetString(1)}");
+                    }
+                }
+            }
+            catch(Exception err)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: "+err.Message);
+            }
+            return lst;
+        }
     }
 }
