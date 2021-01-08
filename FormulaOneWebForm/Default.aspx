@@ -10,11 +10,11 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:button runat="server" Text="invia"/> <br />
-            <asp:label runat="server" Text=" "/> <br />
-        </div>
-        <div>
-            <asp:ListBox ID="tb" runat="server"></asp:ListBox>
+            <asp:DropDownList ID="tb1" runat="server" AutoPostBack="True"  OnSelectedIndexChanged = "OnSelectedIndexChanged"></asp:DropDownList>
+            <asp:DropDownList ID="tb2" runat="server" AutoPostBack="True"  OnSelectedIndexChanged = "OnSelectedIndexChangedTB23"></asp:DropDownList>
+            <asp:DropDownList ID="tb3" runat="server" AutoPostBack="True"  OnSelectedIndexChanged = "OnSelectedIndexChangedTB23"></asp:DropDownList>
+            <br />
+            <asp:GridView ID="dgv" runat="server" AutoGenerateColumns="true"></asp:GridView>
         </div>
     </form>
 </body>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data;
 
 
 namespace FormulaOneDLL
@@ -15,7 +16,7 @@ namespace FormulaOneDLL
 
         public const string QUERYPATH = @"C:\data\F1\queries\";
         public const string DBPATH = @"C:\data\F1\";
-        public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="+ DBPATH + "FormulaOne.mdf;Integrated Security=True";
+        public const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DBPATH + "FormulaOne.mdf;Integrated Security=True";
         //private static string RESTORE_CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DBPATH + @"FormulaOne.bak; Integrated Security=True";
 
         public void ExecuteSqlScript(string sqlScriptName)
@@ -59,7 +60,7 @@ namespace FormulaOneDLL
             }
             catch (SqlException err)
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\tErrore SQL: " + err.Number + " - " + err.Message);
             }
             con.Close();
@@ -92,7 +93,7 @@ namespace FormulaOneDLL
 
                     using (SqlCommand backupcomm = new SqlCommand())
                     {
-                        File.Delete(DBPATH+ "FormulaOne_Backup.bak");
+                        File.Delete(DBPATH + "FormulaOne_Backup.bak");
                         backupcomm.Connection = backupConn;
                         backupcomm.CommandText = @"BACKUP DATABASE [" + DBPATH + "FormulaOne.mdf] TO DISK='" + DBPATH + @"FormulaOne_Backup.bak'";
                         backupcomm.ExecuteNonQuery();
@@ -144,32 +145,82 @@ namespace FormulaOneDLL
             }
         }
 
-        public List<string> GetCountries()
+        public List<string> GetTableList()
         {
             List<string> lst = new List<string>();
+            var con = new SqlConnection(CONNECTION_STRING);
+            con.Open();
             try
             {
-                using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+                var command = new SqlCommand();
+                command.Connection = con;
+                command.CommandText = @"SELECT  Name from Sysobjects where xtype = 'u' ";
+                command.ExecuteNonQuery();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    con.Open();
-                    SqlCommand command = new SqlCommand(@"SELECT countryCode FROM Country");
-                    command.ExecuteNonQuery();
-
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        Console.WriteLine(reader.GetString(0)+" --> "+reader.GetString(1));
-                        lst.Add($"{reader.GetString(0)}-{reader.GetString(1)}");
-                    }
+                    Console.WriteLine(reader.GetString(0) );
+                    lst.Add($"{reader.GetString(0)}");
                 }
             }
-            catch(Exception err)
+
+            catch (SqlException err)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Error: "+err.Message);
+                Console.WriteLine("Error: " + err.Message);
             }
+            con.Close();
             return lst;
+        }
+
+        public List<string> GetHeaders(string Table)
+        {
+            List<string> lst = new List<string>();
+            var con = new SqlConnection(CONNECTION_STRING);
+            con.Open();
+            try
+            {
+                var command = new SqlCommand();
+                command.Connection = con;
+                command.CommandText = @"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+Table+"' ORDER BY ORDINAL_POSITION";
+                command.ExecuteNonQuery();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Console.WriteLine(reader.GetString(0));
+                    lst.Add($"{reader.GetString(0)}");
+                }
+            }
+
+            catch (SqlException err)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: " + err.Message);
+            }
+            con.Close();
+            return lst;
+        }
+
+        public DataTable GetData(string table,string orederBy,string orederByMode)
+        {
+            DataTable tableData = new DataTable();
+            SqlConnection con = new SqlConnection(CONNECTION_STRING);
+            string sql = $"SELECT * FROM  {table}  ORDER BY {orederBy} {orederByMode};";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            da.Fill(tableData);
+
+            con.Close();
+
+            da.Dispose();
+            return tableData;
         }
     }
 }
