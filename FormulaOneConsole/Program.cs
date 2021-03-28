@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Security.Permissions;
 using System.Threading;
 using FormulaOneDLL;
@@ -11,6 +13,8 @@ namespace FormulaOneConsole
         #region menu(main)
         static void Main(string[] args)
         {
+            int[] driverNs = {44,77,33,23,16,5,4,55,20,8,6,63,31,3,10,26,99,7,18,11,27,89,51 };
+
             Console.Title = "Formula 1";
             DBtoolsInst = new DBtools();
             dotAnimation("Starting", ConsoleColor.Green, true);
@@ -28,6 +32,7 @@ namespace FormulaOneConsole
                 Console.WriteLine("7 - Create GPresults");
                 Console.WriteLine("8 - Create relations");
                 Console.WriteLine("9 - Drop relations");
+                Console.WriteLine("q - Diver Stats");
                 Console.WriteLine("------------------");
                 Console.WriteLine("B - Backup");
                 Console.WriteLine("T - Restore");
@@ -82,6 +87,14 @@ namespace FormulaOneConsole
                         Thread.Sleep(1015);
                         callExecuteSqlScript("dropRelations");
                         break;
+                    case 'q':
+                        THanimation();
+                        Thread.Sleep(1015);
+                        for (int i = 0; i < driverNs.Length; i++)
+                        {
+                            callExecuteSqlScript("statProc", driverNs[i]);
+                        }
+                        break;
                     case 'B':
                         THanimation();
                         Thread.Sleep(1015);
@@ -108,6 +121,7 @@ namespace FormulaOneConsole
                         if (OK) OK = callDropTable("GP");
                         if (OK) OK = callDropTable("Point");
                         if (OK) OK = callDropTable("GPResult");
+                        if (OK) OK = callDropTable("Stats");
 
                         //script file
                         if (OK) OK = callExecuteSqlScript("countries");
@@ -117,6 +131,14 @@ namespace FormulaOneConsole
                         if (OK) OK = callExecuteSqlScript("gps");
                         if (OK) OK = callExecuteSqlScript("points");
                         if (OK) OK = callExecuteSqlScript("gpResults");
+                        if (OK)
+                        {
+                            for (int i = 0; i < driverNs.Length; i++)
+                            {
+                               OK = callExecuteSqlScript("statProc", driverNs[i]);
+                            }
+
+                        }
                         //if (OK) OK = callExecuteSqlScript("relations");
                         if (OK)
                         {
@@ -156,6 +178,42 @@ namespace FormulaOneConsole
             catch (Exception ex)
             {
                 Console.WriteLine("\n"+ scriptName + " Not Created \nError Message: " + ex.Message);
+                return false;
+            }
+        }
+        public static bool callExecuteSqlScript(string scriptName,int num)
+        {
+            string DBPATH = @"C:\data\F1\";
+            string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DBPATH + "FormulaOne.mdf;Integrated Security=True;";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+                {
+                    con.Open();
+                    string sql = scriptName;
+                    SqlCommand cmd = new SqlCommand(sql, con);
+
+                    SqlParameter res = new SqlParameter();
+                    res.ParameterName = "@driverN";
+                    res.Direction = ParameterDirection.Input;
+                    res.DbType = DbType.Int32; //Tipo di dato nella S.P.
+                    res.Value = num;
+                    cmd.Parameters.Add(res);
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    int ris = cmd.ExecuteNonQuery();
+                }
+                if (Console.ForegroundColor != ConsoleColor.Red)
+                    Console.WriteLine("\nCreate " + scriptName +" Number:"+ num + " - SUCCESS\n");
+                else
+                    throw new Exception();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\n" + scriptName + " Not Created \nError Message: " + ex.Message);
                 return false;
             }
         }

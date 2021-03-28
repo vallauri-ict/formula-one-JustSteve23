@@ -375,7 +375,7 @@ namespace FormulaOneDLL
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        lstD.Add(new Driver(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetString(7)));
+                        lstD.Add(new Driver(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetString(7),reader.GetInt32(8)));
                     }
                     reader.Close();
                 }
@@ -660,5 +660,102 @@ namespace FormulaOneDLL
             con.Close();
             return lst;
         }
+
+        public List<PilotRanking> GetPilotRanking()
+        {
+            List<PilotRanking> lst = new List<PilotRanking>();
+            List<RaceResults> listRR = new List<RaceResults>();
+
+            var con = new SqlConnection(CONNECTION_STRING);
+            con.Open();
+            try
+            {
+                var command = new SqlCommand();
+                command.Connection = con;
+                command.CommandText = $"SELECT * FROM GPResult;";
+                command.ExecuteNonQuery();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    listRR.Add(new RaceResults(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5)));
+                }
+                listRR.Sort((p, q) => p.driverNumber.CompareTo(q.driverNumber));
+
+                for (int i = 0; i < listRR.Count(); i++)
+                {
+
+                }
+
+            }
+            catch (Exception err)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: " + err.Message);
+            }
+            con.Close();
+
+            return lst;
+        }
+
+        public List <driverStats> getDriverStats()
+        {
+            List<driverStats> driverSlist = new List<driverStats>();
+
+            var con = new SqlConnection(CONNECTION_STRING);
+            con.Open();
+            try
+            {
+                var command = new SqlCommand();
+                command.Connection = con;
+                command.CommandText = $"SELECT s.driverNumber,p.driverName,p.driverSurname,s.totalPoints,s.poleNumber,s.raceWinNumber,s.raceSecondNumber,s.raceThirdNumber,s.podiumNumber,s.fastestLapNumber FROM Stats s,Driver p WHERE s.driverNumber=p.driverNumber ORDER BY totalPoints DESC;";
+                command.ExecuteNonQuery();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    driverSlist.Add(new driverStats(reader.GetInt32(0),reader.GetString(1),reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetInt32(9)));
+                }
+            }
+            catch (Exception err)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: " + err.Message);
+            }
+
+            return driverSlist;
+        }
+
+        public List<driverStats> getDriverStats(int driverNumber)
+        {
+            List<driverStats> driverSlist = new List<driverStats>();
+
+            var con = new SqlConnection(CONNECTION_STRING);
+            con.Open();
+            try
+            {
+                var command = new SqlCommand();
+                command.Connection = con;
+                command.CommandText = $"SELECT s.driverNumber,p.driverName,p.driverSurname,s.totalPoints,s.poleNumber,s.raceWinNumber,s.raceSecondNumber,s.raceThirdNumber,s.podiumNumber,s.fastestLapNumber FROM Stats s,Driver p WHERE s.driverNumber={driverNumber} AND s.driverNumber=p.driverNumber;";
+                command.ExecuteNonQuery();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    driverSlist.Add(new driverStats(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetInt32(9)));
+                }
+            }
+            catch (Exception err)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: " + err.Message);
+            }
+
+            return driverSlist;
+        }
+
     }
 }

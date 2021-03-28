@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FormulaOneDLL;
+using FormulaOneDLL.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,18 @@ namespace FormulaOneWebService
     {
         // GET: api/<RaceResultController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<RaceResults> Get()
         {
-            return new string[] { "value1", "value2" };
+            DBtools dt = new DBtools();
+            return dt.GetRaceResult();
         }
 
-        // GET api/<RaceResultController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/<RaceResult>/5
+        [HttpGet("{raceId}")]
+        public IEnumerable<RaceResults> Get(string raceId)
         {
-            return "value";
+            DBtools dt = new DBtools();
+            return dt.GetRaceResult(raceId);
         }
 
         // POST api/<RaceResultController>

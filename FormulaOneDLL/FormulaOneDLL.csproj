@@ -46,8 +46,10 @@
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\DriverList.cs" />
+    <Compile Include="Models\driverStats.cs" />
     <Compile Include="Models\GP.cs" />
     <Compile Include="Models\GPlist.cs" />
+    <Compile Include="Models\PilotRanking.cs" />
     <Compile Include="Models\RaceResults.cs" />
     <Compile Include="Models\RaceWinnerList.cs" />
     <Compile Include="Models\Team.cs" />

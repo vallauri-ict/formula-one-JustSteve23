@@ -8,7 +8,7 @@ namespace FormulaOneDLL.Models
 {
     public class Driver
     {
-        public Driver(int driverNumber,string driverName, string driverSurname, string teamCode, string flag, int winNumber, int worldChampionshipsNumber, string img)
+        public Driver(int driverNumber,string driverName, string driverSurname, string teamCode, string flag, int winNumber, int worldChampionshipsNumber, string img,int points)
         {
             this.driverNumber = driverNumber;
             this.driverName = driverName;
@@ -18,6 +18,7 @@ namespace FormulaOneDLL.Models
             this.winNumber = winNumber;
             this.worldChampionshipsNumber = worldChampionshipsNumber;
             this.img = img;
+            this.points = points;
         }
 
         public int driverNumber { get; set; }
@@ -28,6 +29,7 @@ namespace FormulaOneDLL.Models
         public int winNumber { get; set; }
         public int worldChampionshipsNumber { get; set; }
         public string img { get; set; }
+        public int points { get; set; }
 
     }
 }
